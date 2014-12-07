@@ -1,7 +1,7 @@
 #' @method qread data.frame
 #' @export
 qread.data.frame <- function(
-	file, type, header=TRUE, sep="\t", check.names=TRUE, row.names=1, ...
+	file, type, header=TRUE, sep=" ", check.names=TRUE, row.names=1, ...
 ) {
 	read.table(file,
 		header=header, sep=sep, check.names=check.names, row.names=row.names, ...)
@@ -10,7 +10,7 @@ qread.data.frame <- function(
 #' @method qwrite data.frame
 #' @export
 qwrite.data.frame <- function(
-	x, file, type, quote=TRUE, sep="\t", row.names=TRUE, col.names=NA, ...
+	x, file, type, quote=TRUE, sep=" ", row.names=TRUE, col.names=NA, ...
 ) {
 	write.table(x, file,
 		quote=quote, sep=sep, row.names=row.names, col.names=col.names, ...)

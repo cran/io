@@ -1,0 +1,10 @@
+CXX:
+  compiler: g++
+  flag: -O3
+C:
+  compiler: gcc
+  flag: -O3
+tests:
+- 1
+- 2
+- 3

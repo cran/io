@@ -1,13 +1,13 @@
-#' Draw to a plot device
+#' Draw plot
 #'
 #' This funtion draws a plot to screen, a file, or both.
 #'
 #' To send the plot to screen, set \code{device} to NA (default).
 #' Optionally, to print the plot on screen to a file, specify \code{file}.
 #'
-#' If \code{device} is \code{NULL}, the plot will be sent to the
+#' If \code{device} is \code{NULL}, the plot will be sent directly to the
 #' the specified \code{file} using a printing device inferred from the file 
-#' extension.
+#' extension (no graphical window will open).
 #'
 #' Set the global option \code{plot.device} to affect multiple plots.
 #' Graphical parameters including \code{width}, \code{height}, \code{res},
@@ -21,6 +21,12 @@
 #' @param aspect.ratio  ratio of width to height
 #' @param units  unit of plot dimension [default: "in"]
 #' @param res    bitmap resolution, used only by bitmap formats [default: 300]
+#' @param mkpath   whether to create parent directories
+#'                 (if they do not already exists)
+#' @param symlink  whether to create a symlink to file with a simplified
+#'                 filename (ignored if file is not a \code{filename} object);
+#'                 an existing file will not be overwritten but an existing
+#'                 symlink will be
 #' @param ...    other arguments passed to the plot device function
 #' @export
 #'
@@ -33,7 +39,7 @@
 #' # Enable automatic plot format inference
 #' options(plot.device=NULL)
 #'
-#' # Plot directly to file (format is inferred)
+#' # Plot directly to file (format is inferred from filename extension)
 #' qdraw(plot(1:10), "plot.pdf")
 #'
 #' # Plot to screen, then print to file (display will not be closed)
@@ -50,6 +56,7 @@ qdraw <- function(
 	file=NULL, device=getOption("plot.device"),
 	width=NULL, height=NULL,
 	aspect.ratio=NULL, units=NULL, res=NULL,
+	mkpath=TRUE, symlink=TRUE,
 	...
 ) {
 
@@ -74,8 +81,13 @@ qdraw <- function(
 		}
 	}
 
-	# Convert filename::filename to character
-	if (inherits(file, "filename")) file <- as.character(file);
+	filename <- file;
+
+	# Create parent directories to file
+	if (!is.null(filename) && mkpath) filenamer::make_path(filename);
+
+	# Convert filenamer::filename to character
+	if (is.filename(file)) file <- as.character(file);
 
 	# Infer the device
 	if (is.null(device)) {
@@ -148,6 +160,9 @@ qdraw <- function(
 	} else {
 		stop("Unknown plot output device type")
 	}
+
+	# Create symbolic link
+	if (!is.null(filename) && symlink) .symlink_simplified(filename);
 
 	invisible()
 }

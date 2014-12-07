@@ -25,18 +25,37 @@ qread.matrix <- function(
 qwrite.matrix <- function(
 	x, file, type, quote=FALSE, sep="\t", row.names=TRUE, col.names=NA, ...
 ) {
+	if (!(is.matrix(x) || is.vector(x))) {
+		stop("x must be a matrix or a vector");
+	}
 	write.table(x, file,
 		quote=quote, sep=sep, row.names=row.names, col.names=col.names, ...)
 }
 
 #' @method qread mtx
 #' @export
-qread.mtx <- function(file, type, ...) {
-	qread.matrix(file)
-}
+qread.mtx <- qread.matrix;
 
 #' @method qwrite mtx
 #' @export
-qwrite.mtx <- function(x, file, type, ...) {
-	qwrite.matrix(x, file)
+qwrite.mtx <- qwrite.matrix;
+
+#' @method qread dat
+#' @export
+qread.dat <- function(file, type, header=FALSE, sep="", comment.char="", ...) {
+	as.matrix(read.table(file,
+		header=header, sep=sep, comment.char=comment.char, ...));
 }
+
+#' @method qwrite dat
+#' @export
+qwrite.dat <- function(
+	x, file, type, quote=FALSE, sep=" ", row.names=FALSE, col.names=FALSE, ...
+) {
+	if (!(is.matrix(x) || is.vector(x))) {
+		stop("x must be a matrix or a vector");
+	}
+	write.table(x, file,
+		quote=quote, sep=sep, row.names=row.names, col.names=col.names, ...)
+}
+

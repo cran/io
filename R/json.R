@@ -3,7 +3,7 @@
 qread.json <- function(file, type, ...) {
 	require(jsonlite);
 
-	unserializeJSON(paste(readLines(file), collapse="\n"), ...)
+	jsonlite::unserializeJSON(paste(readLines(file), collapse="\n"), ...)
 }
 
 #' @method qwrite json
@@ -11,5 +11,5 @@ qread.json <- function(file, type, ...) {
 qwrite.json <- function(x, file, type, append=FALSE, ...) {
 	require(jsonlite);
 
-	cat(serializeJSON(x, ...), sep="", file=file, append=append)
+	cat(jsonlite::serializeJSON(x, ...), sep="", file=file, append=append)
 }

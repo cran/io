@@ -1,7 +1,7 @@
 #' @method qread yaml
 #' @export
 qread.yaml <- function(file, type, ...) {
-	require(yaml);
+	.check_package("yaml");
 
 	yaml::yaml.load_file(file, ...)
 }
@@ -9,7 +9,7 @@ qread.yaml <- function(file, type, ...) {
 #' @method qwrite yaml
 #' @export
 qwrite.yaml <- function(x, file, type, append=FALSE, ...) {
-	require(yaml);
+	.check_package("yaml");
 
 	cat(yaml::as.yaml(x, ...), sep="", file=file, append=append)
 }

@@ -1,5 +1,5 @@
 9ac4f9398da7d23316a83bcb0124ee47 *COPYING
-bc8b12b4fb93f8b198e5c41936c5def9 *DESCRIPTION
+70993e4304ff1c4f6ddb0d17eefe9717 *DESCRIPTION
 cffdc05e88c60286475560592892380f *NAMESPACE
 63aa3a471380f2a01d1c926b385961a2 *R/annotated.matrix.R
 209b4aecb11506b87e1656d37b165052 *R/compressed.R
@@ -8,11 +8,11 @@ be5885c5af469d6d7075d5483b0f2bd5 *R/csv.R
 252873ed2e394fe0c67353eef452dacc *R/directory.R
 f908181ed9bbab80aad3a7df63ce7153 *R/gct.R
 c33a3bfb50d577677352be566cee6e5c *R/gmt.R
-3f95fcd42910186eb45f89cbbf385b40 *R/hdf5.R
+2ca5b51f4eaf22183c17004f5c001af0 *R/hdf5.R
 ec6cb6b6dfb94869abe5f082599a5add *R/ini.R
-82dc165f272184c74a6ea9a2647829d7 *R/internal.R
+0000578dad7734ae3ddd1f472efdd247 *R/internal.R
 a9bbafbffbf0e87e3902614df039e626 *R/io.R
-8efd4aad5769248396997a205b98eb9d *R/json.R
+7d354a1bab6fce8ab01b1eea5fa2056a *R/json.R
 42a10df1cb3a8b1232ea73c4a0fcfb4f *R/list.R
 68737e193b289e2ea537fe2c4916e59a *R/matrix.R
 cccf1a92250a03a189497cc4f5a7642e *R/qdraw.R
@@ -24,8 +24,8 @@ fdd648459e77bc3926a6f97f21deb4ec *R/seg.R
 8ab16308ae34836153c036b43b427a81 *R/symlink_simplified.R
 7215eb25faa0b34deb281d6b15b5603e *R/tsv.R
 79a0192d7377975f6e8a5ae9be52041e *R/vector.R
-3055d2a22e6e3368f2b4e1c838aceec3 *R/xml.R
-317f8aafe803b09148715ab2a66c2841 *R/yaml.R
+d2ffeae91a1c3cb496c9277eb837ba05 *R/xml.R
+ec9f101c8fe9f35e2071ab8578b4efd2 *R/yaml.R
 0bc78acf9d20913e036f3379a83f8718 *R/zzz.R
 d61809281d849d45205403e2a51e74cf *README.md
 7f5e3049f9b19242a624ae0ba13fddde *man/io.Rd
@@ -57,5 +57,5 @@ e54df431f8cf33473a453680d5b40020 *tests/testthat/data/test.dfm
 f3a4562cd2134c76b4ff170ce6f28fee *tests/testthat/data/test.vtr
 eebca46a55b87e79ed15f574682769c2 *tests/testthat/data/test.xml
 04689add3b3f05fe7a549723ae23e515 *tests/testthat/data/test.yaml
-b8474db10fcb6facc27d2a05f7ab2351 *tests/testthat/helper.R
+bfe340ca8341776272751cd7fc165849 *tests/testthat/helper.R
 f9695f996aace409cbfe1e9d9adc52d7 *tests/testthat/test_read-write-read.R

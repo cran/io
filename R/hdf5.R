@@ -1,7 +1,8 @@
 #' @method qread hdf5
 #' @export
 qread.hdf5 <- function(file, type, ...) {
-	require(rhdf5);
+	.check_package("rhdf5")
+
 	if (!is.character(file)) stop("file must be a filename [character vector]");
 	rhdf5::H5close();
 
@@ -72,7 +73,8 @@ qread.hdf5 <- function(file, type, ...) {
 #' @method qwrite hdf5
 #' @export
 qwrite.hdf5 <- function(x, file, type, force=FALSE, ...) {
-	require(rhdf5);
+	.check_package("rhdf5");
+
 	if (!is.character(file)) stop("file must be a file name [character vector]");
 	rhdf5::H5close();
 

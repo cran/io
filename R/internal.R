@@ -25,3 +25,11 @@
 		stop(sprintf("File type `%s` is not supported", type));
 	}
 }
+
+.check_package <- function(pkg) {
+	if (requireNamespace(pkg, quietly=TRUE)) {
+		library(pkg, character.only=TRUE, quietly=TRUE);
+	} else {
+		stop("Please install ", pkg, " or use another file format", call. = FALSE);
+	}
+}

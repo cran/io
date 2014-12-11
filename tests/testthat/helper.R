@@ -7,13 +7,22 @@ noncomparable.formats <- c("xml")
 # exempt some of the externally implemeneted formats from connection tests
 conn.exempt.formats <- union(c("xml", "json"), binary.formats);
 
+suggested.packages <- list(xml="XML", hdf5="rhdf5", yaml="yaml", lst="yaml", json="jsonlite");
+
 # read an input file, write it to a temporary file
 # and test that the files are the same;
 # write a data object to file, read it back in
 # and test that the data objects are the same
 test_read_write_read <- function(infile) {
 
-	ext <- as.filename(infile)$ext;
+	ext <- tolower(as.filename(infile)$ext);
+
+	if (ext %in% names(suggested.packages)) {
+		if (!requireNamespace(suggested.packages[[ext]], quietly=TRUE)) {
+			# optional depedency is missing: skip test
+			return(invisible());
+		}
+	}
 
 	outfile <- tempfile("test-out", fileext=paste(".", ext, sep=""));
 

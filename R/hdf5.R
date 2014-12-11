@@ -20,7 +20,9 @@ qread.hdf5 <- function(file, type, ...) {
 		);
 		names(x) <- vars;
 	} else {
-		if (!all(c("type", "data") %in% vars)) stop("HDF5 file is incomplete");
+		if (!all(c("type", "data") %in% vars)) {
+			stop("HDF5 file is incomplete", call.=FALSE);
+		}
 
 		type <- rhdf5::h5read(file, name="type", ...);
 
@@ -93,9 +95,9 @@ qwrite.hdf5 <- function(x, file, type, force=FALSE, ...) {
 		if (force) {
 			rhdf5::h5save(x, file=file);
 		} else {
-			stop("writting ", class(x), " to HDF5 format is not supported; ",
+			stop("Writting ", class(x), " to HDF5 format is not supported; ",
 				"set force=TRUE to write to HDF5 format anyway ",
-				"(data attributes may be lost or transformed)");
+				"(data attributes may be lost or transformed)", call.=FALSE);
 		}
 	} else {
 		type <- hdf5.supported.types[type.i];

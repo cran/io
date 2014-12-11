@@ -8,6 +8,21 @@ noncomparable.formats <- c("xml")
 conn.exempt.formats <- union(c("xml", "json"), binary.formats);
 
 suggested.packages <- list(xml="XML", hdf5="rhdf5", yaml="yaml", lst="yaml", json="jsonlite");
+suggested.package.versions <- list(
+	xml = list(name = "XML", op = ">=", version = package_version("3.98-1.1")),
+	hdf5 = list(name = "rhdf5", op = ">=", version = package_version("2.10.0")),
+	yaml = list(name = "yaml", op = ">=", version = package_version("2.1.13")),
+	jsonlite = list(name = "jsonlite", op = ">=", version = package_version("0.9.14"))
+);
+
+.requireNamespace <- function(x, versionCheck) {
+	x <- try(loadNamespace(x, versionCheck=versionCheck), silent=TRUE);
+	if (class(x) == "try-error") {
+		FALSE
+	} else {
+		TRUE
+	}
+}
 
 # read an input file, write it to a temporary file
 # and test that the files are the same;
@@ -18,7 +33,9 @@ test_read_write_read <- function(infile) {
 	ext <- tolower(as.filename(infile)$ext);
 
 	if (ext %in% names(suggested.packages)) {
-		if (!requireNamespace(suggested.packages[[ext]], quietly=TRUE)) {
+		if (!.requireNamespace(
+			suggested.packages[[ext]], suggested.package.versions[[ext]]
+		)) {
 			# optional depedency is missing: skip test
 			return(invisible());
 		}

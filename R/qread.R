@@ -14,6 +14,7 @@
 #' @return a data object (type depends on the underlying function)
 #' @export
 #' @import filenamer
+#' @import stringr
 #'
 #' @examples
 #' \dontrun{
@@ -34,8 +35,41 @@
 #' }
 #'
 qread <- function(file, type=NULL, ...) {
+	# Preprocess file name
+	if (is.filename(file)) file <- as.character(file);
+	
+	if (is.character(file)) {
+		# Environmental variable substitution
+		# NB  The braces {} in the pattern need not be matched... (fix?)
+		env.pattern <- "\\$\\{?([a-zA-Z0-9_]+)\\}?";
+		locss <- str_locate_all(file, env.pattern);
+		var.namess <- lapply(str_match_all(file, env.pattern),
+			function(x) {
+				if (length(x) > 0) {
+					x[, 2]
+				} else {
+					NULL
+				}
+			}
+		);
+		file <- mapply(
+			function(f, locs, var.names) {
+				# successively substitute environmental variable name with value
+				if (nrow(locs) > 0) {
+					for (i in 1:nrow(locs)) {
+							str_sub(f, locs[i, , drop=FALSE]) <- Sys.getenv(var.names[i])
+					}
+				}
+				f
+			},
+			file,
+			locss,
+			var.namess
+		);
+	}
+	
 	.qread(
-		if (is.filename(file)) as.character(file) else file,
+		file,
 		if (is.null(type)) .infer_file_type(file) else type,
 		...
 	)
@@ -43,8 +77,15 @@ qread <- function(file, type=NULL, ...) {
 
 .qread <- function(file, type, ...) {
 	# Create a stub variable with the appropriate type
-	z <- NA;
-	class(z) <- type;
+	z <- switch(type,
+		matrix = matrix(),
+		list = list(),
+		# default
+		{
+			z <- NA; class(z) <- type;
+			z
+		}
+	);
 	
 	UseMethod("qread", z)
 }

@@ -3,7 +3,8 @@
 qread.gmt <- function(file, type, ...) {
 	sep <- "\t";
 
-	x <- lapply(strsplit(readLines(file), sep),
+	x <- lapply(
+		strsplit(readLines(file, warn=FALSE), sep),
 		function(z) {
 			list(meta=z[1:2], data=z[3:length(z)])
 		}

@@ -2,9 +2,9 @@
 binary.formats <- c("hdf5", "rds");
 
 # use print-output-based object comparison tests for noncomparable objects
-noncomparable.formats <- c("xml")
+noncomparable.formats <- c("xml");
 
-# exempt some of the externally implemeneted formats from connection tests
+# exempt some of the externally implemented formats from connection tests
 conn.exempt.formats <- union(c("xml", "json"), binary.formats);
 
 suggested.packages <- list(xml="XML", hdf5="rhdf5", yaml="yaml", lst="yaml", json="jsonlite");
@@ -75,7 +75,7 @@ test_read_write_read <- function(infile) {
 
 	if (! ext %in% conn.exempt.formats) {
 
-		test_that("read from text connection does not change context", {
+		test_that("read from text connection does not change content", {
 			conn <- textConnection(inlines, "rt");
 			z <- qread(conn, type=ext);
 			close(conn);

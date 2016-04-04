@@ -16,4 +16,7 @@
 #'
 #' @docType package
 #' @name io
+#' @importFrom grDevices bmp cairo_pdf cairo_ps dev.new dev.off dev.print
+#'             jpeg pdf png postscript svg tiff
+#' @importFrom utils methods read.table write.table
 NULL

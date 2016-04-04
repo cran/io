@@ -16,9 +16,10 @@ File formats are automatically inferred from file extensions or R object
 object types. `qread` handles `gzip`, `bzip2`, or `xz` compressed files and 
 can iteratively read all files in a directory. `qwrite` creates directory structure for output files.
 
-With the `filenamer` package, output files can also be automatically organized
-into directories with time stamps and symbolically linked to the base
-directory (see the `filenamer` package for details).
+With the `filenamer` package, output filenames (of the `filename` class) can
+also be automatically organized into directories with time stamps and
+symbolically linked to the base directory (see the `filenamer` package for
+details).
 
 Say *no* to generic file extensions. Say *yes* to standardized file formats.
 

@@ -130,7 +130,7 @@ qdraw <- function(
 	}
 
 	# Evaluate the plotting expression
-	g <- eval(substitute(expr));
+	g <- eval(substitute(expr), parent.frame(), parent.frame());
 	if (inherits(g, "ggplot")) print(g);
 
 	# Finalize the plotting device

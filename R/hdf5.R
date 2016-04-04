@@ -6,7 +6,7 @@ qread.hdf5 <- function(file, type, ...) {
 	if (!is.character(file)) stop("file must be a filename [character vector]");
 	rhdf5::H5close();
 
-	vars <- rhdf5::h5ls(file)$name;
+	vars <- trimws(rhdf5::h5ls(file)$name);
 	if (
 		! "author" %in% vars ||
 		! "io::qwrite" %in% rhdf5::h5read(file, name="author")

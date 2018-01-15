@@ -4,11 +4,11 @@
 		filename <- as.filename(filename);
 	}
 	if (is.filename(filename)) {
-		if (!is.null(filename$ext)) {
-			type <- filename$ext[length(filename$ext)];
-		} else {
+		if (is.null(filename$ext) || filename$ext == "") {
 			# filename has no period: assume it points to a directory
 			type <- "directory";
+		} else {
+			type <- filename$ext[length(filename$ext)];
 		}
 	}
 	# `type` may remain NULL if extension is not available
@@ -32,15 +32,4 @@
 	} else {
 		stop("Please install ", pkg, " or use another file format", call. = FALSE);
 	}
-}
-
-# To support R < 3.2, provide trimws definition
-trimws <- function (x, which = c("both", "left", "right")) {
-	which <- match.arg(which)
-	mysub <- function(re, x) sub(re, "", x, perl = TRUE)
-	if (which == "left") 
-		return(mysub("^[ \t\r\n]+", x))
-	if (which == "right") 
-		return(mysub("[ \t\r\n]+$", x))
-	mysub("[ \t\r\n]+$", mysub("^[ \t\r\n]+", x))
 }

@@ -27,7 +27,7 @@ list_files <- function(path=".", full.names=FALSE,  ...) {
 # Read files from directory
 #' @method qread directory
 #' @export
-qread.directory <- function(file, type, pattern=".*\\..*", closures=FALSE, ...) {
+qread.directory <- function(file, type, pattern="\\.[^.]+", ext.rm=TRUE, closures=FALSE, ...) {
 	if (!is.character(file) || !file.info(file)$isdir) {
 		stop("`file` should point to a directory with the input files")
 	}
@@ -50,7 +50,12 @@ qread.directory <- function(file, type, pattern=".*\\..*", closures=FALSE, ...) 
 		)
 	} else {
 		# return list of data
-		lapply(fnames.full, function(fn) qread(fn, ...))
+		xs <- lapply(fnames.full, function(fn) qread(fn, ...));
+		if (ext.rm) {
+			# remove file extension
+			names(xs) <- sub(pattern, "", names(xs));
+		}
+		xs
 	}
 }
 

@@ -4,7 +4,6 @@ qread.hdf5 <- function(file, type, ...) {
 	.check_package("rhdf5")
 
 	if (!is.character(file)) stop("file must be a filename [character vector]");
-	rhdf5::H5close();
 
 	vars <- trimws(rhdf5::h5ls(file)$name);
 	if (
@@ -34,8 +33,6 @@ qread.hdf5 <- function(file, type, ...) {
 			x <- .read_hdf5_data.frame(file, vars);
 		}
 	}
-
-	rhdf5::H5close();
 
 	x
 }
@@ -78,7 +75,6 @@ qwrite.hdf5 <- function(x, file, type, force=FALSE, ...) {
 	.check_package("rhdf5");
 
 	if (!is.character(file)) stop("file must be a file name [character vector]");
-	rhdf5::H5close();
 
 	if (file.exists(file)) {
 		file.remove(file);
@@ -112,8 +108,6 @@ qwrite.hdf5 <- function(x, file, type, force=FALSE, ...) {
 		}
 		rhdf5::h5write("io::qwrite", file, "author");
 	}
-
-	rhdf5::H5close();
 }
 
 hdf5.supported.types <- c("data.frame", "matrix", "vector", "array");

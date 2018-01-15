@@ -1,9 +1,22 @@
 #' @method qread numeric
 #' @export
-qread.numeric <- qread.character <- qread.vector <- function(
-	file, type, column=1, ...
+qread.vector <- function(
+	file, type, class=NA, ...
 ) {
-	read.table(file, header=FALSE, ...)[,column]
+	x <- readLines(file, ...);
+
+	if (is.na(class)) {
+		# set as.is=TRUE to disable character to factor conversion
+		utils::type.convert(x, as.is=TRUE, ...)
+	} else if (class == "numeric") {
+		as.numeric(x)
+	} else if (class == "integer") {
+		as.integer(x)
+	} else if (class == "logical") {
+		as.logical(x)
+	} else if (class == "complex") {
+		as.complex(x)
+	}
 }
 
 #' @method qwrite numeric
@@ -25,7 +38,7 @@ qwrite.numeric <- qwrite.character <- qwrite.vector <- function(
 #' @method qread vtr
 #' @export
 qread.vtr <- function(file, type, ...) {
-	qread.vector(file)
+	qread.vector(file, ...)
 }
 
 #' @method qwrite vtr
@@ -36,7 +49,9 @@ qwrite.vtr <- function(x, file, type, ...) {
 
 #' @method qread numeric
 #' @export
-qread.numeric <- qread.vector;
+qread.numeric <- function(file, type, class="numeric", ...) {
+	qread.vector(file, type, class=class, ...)
+}
 
 #' @method qwrite numeric
 #' @export
@@ -68,7 +83,9 @@ qwrite.double <- qwrite.vector;
 
 #' @method qread character
 #' @export
-qread.character <- qread.vector;
+qread.character <- function(file, type, class="character", ...) {
+	qread.vector(file, type, class=class, ...)
+}
 
 #' @method qwrite character
 #' @export

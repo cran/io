@@ -1,7 +1,7 @@
 #' @method qread tsv
 #' @export
-qread.tsv <- function(file, type, check.names=FALSE, ...) {
-	read.table(file, header=TRUE, sep="\t", check.names=check.names, ...)
+qread.tsv <- function(file, type, check.names=FALSE, quote="\"", ...) {
+	read.table(file, header=TRUE, sep="\t", quote=quote, check.names=check.names, ...)
 }
 
 #' @method qwrite tsv

@@ -75,14 +75,14 @@ test_read_write_read <- function(infile) {
 
 	if (! ext %in% conn.exempt.formats) {
 
-		test_that("read from text connection does not change content", {
+		test_that(sprintf("read from text connection does not change content, ext = %s", ext), {
 			conn <- textConnection(inlines, "rt");
 			z <- qread(conn, type=ext);
 			close(conn);
 			expect_equal(x, z);
 		});
 
-		test_that("write to text connection does not change content", {
+		test_that(sprintf("write to text connection does not change content, ext = %s", ext), {
 			textlines <- character();
 			conn <- textConnection("textlines", "wt", local=TRUE);
 			# type has to be specified since c2 is a connection (no file extension!)

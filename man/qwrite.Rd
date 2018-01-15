@@ -48,4 +48,3 @@ qwrite(as.matrix(cars), "cars.mtx", type=NA)
 }
 
 }
-

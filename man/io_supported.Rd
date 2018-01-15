@@ -21,4 +21,3 @@ This function returns whether a type is supported by
 io_supported("rds")
 
 }
-

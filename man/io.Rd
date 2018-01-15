@@ -21,4 +21,3 @@ to support additional types by defining specific S3 methods.
 Additionally, \code{\link{qdraw}} offers a unified interface for plotting
 to screen or various file formats.
 }
-

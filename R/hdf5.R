@@ -5,6 +5,8 @@ qread.hdf5 <- function(file, type, ...) {
 
 	if (!is.character(file)) stop("file must be a filename [character vector]");
 
+	opt <- setup();	
+
 	vars <- trimws(rhdf5::h5ls(file)$name);
 	if (
 		! "author" %in% vars ||
@@ -23,6 +25,7 @@ qread.hdf5 <- function(file, type, ...) {
 			stop("HDF5 file is incomplete", call.=FALSE);
 		}
 
+		# read the string value stored in the `type` attribute of the h5 file
 		type <- rhdf5::h5read(file, name="type", ...);
 
 		if (type == "vector") {
@@ -33,6 +36,8 @@ qread.hdf5 <- function(file, type, ...) {
 			x <- .read_hdf5_data.frame(file, vars);
 		}
 	}
+
+	teardown(opt);
 
 	x
 }
@@ -76,14 +81,24 @@ qwrite.hdf5 <- function(x, file, type, force=FALSE, ...) {
 
 	if (!is.character(file)) stop("file must be a file name [character vector]");
 
+	opt <- setup();	
+
 	if (file.exists(file)) {
 		file.remove(file);
 	}
 	rhdf5::h5createFile(file);
 
 	type.i <- which(unlist(lapply(hdf5.supported.types, function(type) inherits(x, type))));
+	# use only the first supported type
+	# this is alright we keep the supported type vector in a sane order
+	if (length(type.i) > 1) {
+		type.i <- type.i[1];
+	}
 	# handle the special case for vectors
-	# is.vector and inherits(x, "vector") are both uninformative!
+	# is.vector and inherits(x, "vector") are both uninformative
+	# because vector of different modes are considered types
+	# (e.g. logical and numeric are both functionally vectors 
+	# but they do not have the vector class)
 	if (is.atomic(x) && length(type.i) == 0) {
 		type.i <- match("vector", hdf5.supported.types);
 	}
@@ -108,9 +123,13 @@ qwrite.hdf5 <- function(x, file, type, force=FALSE, ...) {
 		}
 		rhdf5::h5write("io::qwrite", file, "author");
 	}
+
+	teardown(opt);
+
 }
 
-hdf5.supported.types <- c("data.frame", "matrix", "vector", "array");
+# order of supported types is from most specific to most general
+hdf5.supported.types <- c("data.frame", "matrix", "array", "vector");
 
 .write_hdf5_vector <- function(x, file) {
 	rhdf5::h5write("vector", file, "type");
@@ -161,3 +180,24 @@ qread.h5 <- qread.hdf5;
 #' @method qwrite h5
 #' @export
 qwrite.h5 <- qwrite.hdf5;
+
+# probably only needed for Solaris
+setup <- function() {
+	# Test for HDF5 file locking, record, & disable
+	if (exists("rhdf5::h5testFileLocking") && !rhdf5::h5testFileLocking( tempdir() )) {
+		opt <- Sys.getenv("HDF5_USE_FILE_LOCKING");
+		rhdf5::h5disableFileLocking();
+		opt
+	} else {
+		NULL	
+	}
+}
+
+# probably only needed for Solaris
+teardown <- function(opt=NULL) {
+	# Restore previous file locking status
+	if (!is.null(opt) && opt != "FALSE") {
+		rhdf5::h5enableFileLocking()
+	}
+}
+

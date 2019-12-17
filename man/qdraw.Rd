@@ -4,9 +4,19 @@
 \alias{qdraw}
 \title{Draw plot}
 \usage{
-qdraw(expr, file = NULL, device = getOption("plot.device"), width = NULL,
-  height = NULL, aspect.ratio = NULL, units = NULL, res = NULL,
-  mkpath = TRUE, symlink = TRUE, ...)
+qdraw(
+  expr,
+  file = NULL,
+  device = getOption("plot.device"),
+  width = NULL,
+  height = NULL,
+  aspect.ratio = NULL,
+  units = NULL,
+  res = NULL,
+  mkpath = TRUE,
+  symlink = TRUE,
+  ...
+)
 }
 \arguments{
 \item{expr}{expression for plotting}

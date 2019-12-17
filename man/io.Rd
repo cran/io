@@ -3,7 +3,6 @@
 \docType{package}
 \name{io}
 \alias{io}
-\alias{io-package}
 \title{A unified framework for input-output operations in R}
 \description{
 \code{io} provides \code{\link{qread}} for reading in data of various types

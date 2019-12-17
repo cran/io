@@ -19,6 +19,7 @@ qread.gct <- function(file, type, ...) {
 	# dims[2] == number of samples
 
 	d <- read.table(f, header=TRUE, sep=sep, quote="", comment.char="", na.strings="",
+		check.names=FALSE,
 		colClasses=c("character", "character", rep("numeric", dims[2])),
 		nrows = dims[1], stringsAsFactors=FALSE);
 

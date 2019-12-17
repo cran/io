@@ -25,12 +25,12 @@ qwrite.numeric <- qwrite.character <- qwrite.vector <- function(
 	x, file, type, column=1, ...
 ) {
 	# Select column of matrix or data.frame if x is either of these types
-	if (!is.null(ncol(x))) {
+	if (!is.null(ncol(x)) && !is.na(ncol(x))) {
 		x <- x[,column];
 	}
 	# Verify that x is now a vector
-	if (!is.vector(x)) {
-		stop("`x` must be a vector, matrix, data.frame, or a column-subsettable data type")
+	if (!is.vector(x) && !is.array(x)) {
+		stop("`x` must be a vector, array, matrix, data.frame, or a column-subsettable data type")
 	}
 	write.table(x, file, quote=FALSE, row.names=FALSE, col.names=FALSE)
 }
